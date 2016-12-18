@@ -69,17 +69,6 @@ public class BallsAndBuckets
     {
 
         int[] nums = new int[m];
-/*
-        for (int i = 0; i < balls - (m - 1); i++)
-        {
-            nums[0] = i + 1;
-            for (int j = 0; j < m - 1; j++)
-            {
-                nums[j + 1] = nums[j] + 1;
-            }
-            System.out.println(Arrays.toString(nums));
-
-        }*/
 
         for (int i = 0; i < balls - (m - 1); i++)
         {
@@ -90,7 +79,7 @@ public class BallsAndBuckets
             }
 
             System.out.println(Arrays.toString(nums));
-            for (int j = m - 1; j > 1; j--)
+            for (int j = m - 1; j >= 1; j--)
             {
                 for (int k = nums[j - 1]; k < balls; k++)
                 {
@@ -112,52 +101,9 @@ public class BallsAndBuckets
                     System.out.println(Arrays.toString(nums));
                 }
 
-
-
             }
 
         }
-
-//        System.out.println(Arrays.toString(nums));
-
-        /*
-        int[][] combos = new int[balls][m];
-
-        for (int i = 0; i < balls; i++)
-        {
-
-            combos[i][0] += i + 1;
-
-            for (int j = 1; j < m; j++)
-            {
-                if (combos[i][j - 1] != balls)
-                    combos[i][j] += combos[i][j - 1] + 1;
-                else combos[i][j] += 1;
-            }
-
-        }
-        System.out.println(Arrays.deepToString(combos));
-
-        for (int k = 0; k < m - 2; k++)
-        {
-            for (int i = 1; i < m; i++)
-            {
-
-                for (int j = 0; j < balls; j++)
-                {
-                    if (combos[j][i] != m)
-                    {
-                        if (!isNum(combos[j], combos[j][i] + 1))
-                        {
-                            combos[j][i]++;
-                        } else combos[j][i] += 2;
-                    }
-                    else combos[j][i] = 1;
-                }
-            }
-            System.out.println(Arrays.deepToString(combos));
-
-        }*/
 
     }
 
