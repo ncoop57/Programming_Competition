@@ -1,9 +1,6 @@
 package Miscellaneous;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Nathan on 11/29/2016.
@@ -62,6 +59,62 @@ public class BallsAndBuckets
             generateBuckets(m - i, n - 1);
 
         }
+
+    }
+
+    private static void fillBucket(int[] bucket, List<Integer> balls, int n)
+    {
+
+        if (n == bucket.length)
+            return;
+
+        if (bucket[n] != 0)
+        {
+
+            List<Integer> tmp = new ArrayList(balls);
+           // generateSequence(bucket, tmp, n);
+
+
+        }
+        else fillBucket(bucket, balls, ++n);
+
+
+    }
+
+    private static void findWeights(List<Integer> list, int key, int n)
+    {
+
+        if (n == 0)
+            return;
+
+        for (int i = 0; i < list.size(); i++)
+        {
+
+            List<Integer> tmp = new ArrayList(list);
+            int tmp_key = key;
+            tmp_key += tmp.remove(i);
+            findWeights(tmp.subList(i, tmp.size()), tmp_key, n - 1);
+            //compareWeights(tmp, tmp_key, 0, n);
+
+        }
+
+    }
+
+    private static void generateSequence(int[] bucket, List<Integer> balls, int n, int k)
+    {
+
+        if (k == bucket[n])
+            return;
+
+        for (int i = 0; i < balls.size(); i++)
+        {
+
+
+
+        }
+
+        if (k != 0)
+            fillBucket(bucket, balls, n + 1);
 
     }
 
