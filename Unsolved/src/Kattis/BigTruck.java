@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication1;
+package Kattis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +19,9 @@ public class BigTruck
 
     static Node cities[];
     static int[] city_items;
+
+    static int min_dist = Integer.MAX_VALUE;
+    static int max_items = Integer.MIN_VALUE;
     
     static class Node implements Comparable<Node>
     {
@@ -33,6 +36,7 @@ public class BigTruck
         
             this.items = items;
             this.dist = dist;
+            this.id = id;
             this.adjList = new ArrayList<>();
         
         }
@@ -94,8 +98,11 @@ public class BigTruck
         }
         
         Node last = dijkstra(0, n - 1);
-        
-        System.out.println(last.dist + " " + last.items);
+
+        for (int i = 0; i < n; i++)
+            System.out.println("Node Id: " + (i + 1) + " Distance: " + cities[i].dist + " Items: " + cities[i].items);
+
+//        System.out.println((last.dist == Integer.MAX_VALUE) ? "impossible" : last.dist + " " + last.items);
         
     }
     
@@ -117,21 +124,25 @@ public class BigTruck
                 {
                 
                     e.to.dist = current.dist + e.weight;
-                    e.to.items += current.items;
+                    e.to.items = current.items + city_items[e.to.id];
                     pq.offer(e.to);
                 
                 }
                 else if (e.to.dist == current.dist + e.weight)
                 {
-                    
+
+
+                    //System.out.print("Updating num of items from: " + e.to.items + " to ");
                     e.to.items = Math.max(e.to.items, city_items[e.to.id] + current.items);
+                    //System.out.println(e.to.items + " in node: " + e.to.id);
+                    pq.offer(e.to);
                     
                 }
                 
             }
         
         }
-        
+
         return cities[t];
         
     }
