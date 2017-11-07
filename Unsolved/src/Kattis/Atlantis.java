@@ -1,157 +1,64 @@
 package Kattis;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Atlantis
 {
 
-    static Store[] stores;
-//    static int[][] memo;
-    static HashMap<Integer, HashMap<Integer, Integer>> memo;
-    static int n;
-/*
-    static class Key
-    {
-
-        int id;
-        int t;
-
-        public Key(int id, int t)
-        {
-
-            this.id = id;
-            this.t = t;
-
-        }
-
-        public boolean equals(Key k)
-        {
-
-            if (k.id == id && k.t == t) return true;
-
-            return false;
-
-        }
-
-        public int hashCode()
-        {
-
-            return ;
-
-        }
-
-    }*/
-
     static class Store
     {
 
-        int t;
-        int h;
-        boolean visited = false;
+        int time;
+        int height;
 
-        public Store(int t, int h)
+        public Store(int time, int height)
         {
 
-            this.t = t;
-            this.h = h;
+            this.time = time;
+            this.height = height;
 
         }
 
+        @Override
+        public String toString()
+        {
+            return "Time: " + time + " Height: " + height;
+        }
     }
 
     public static void main(String[] args)
     {
 
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
+        int n = sc.nextInt();
 
-        stores = new Store[n];
-//        int t_max = Integer.MIN_VALUE;
-//        int h_max = Integer.MIN_VALUE;
+        ArrayList<Store> stores = new ArrayList<>();
+        int time_capacity = Integer.MIN_VALUE;
         for (int i = 0; i < n; i++)
         {
-            stores[i] = new Store(sc.nextInt(), sc.nextInt());
-//            t_max = Math.max(stores[i].t, t_max);
-//            h_max = Math.max(stores[i].h, h_max);
+            stores.add(new Store(sc.nextInt(), sc.nextInt()));
+            time_capacity = Math.max(time_capacity, stores.get(i).height);
         }
 
-        memo = new HashMap<>();
-//        memo = new int[n][h_max + 1];
-//        for (int i = 0; i < n; i++)
-//        {
-//            Arrays.fill(memo[i], -1);
-//        }
-        int num_of_stores = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++)
+        stores.sort((Store x, Store y) -> x.time - y.time);
+        stores.sort((Store x, Store y) -> x.height - y.height);
+
+        int counter = 0;
+        int current_time = 0;
+        for (Store store : stores)
         {
-            stores[i].visited = true;
-            num_of_stores = Math.max(num_of_stores, visitStore(i, stores[i].t, 0));
-            stores[i].visited = false;
+            if (time_capacity >= store.time && current_time + store.time <= store.height)
+            {
+                current_time += store.time;
+                time_capacity -= store.time;
+                counter++;
+            }
         }
 
-        System.out.println(num_of_stores);
-//        System.out.println(Arrays.deepToString(memo.keySet().toArray()));
-//        System.out.println(Arrays.toString(memo.values().toArray()));
-
-
+        stores.forEach((store)-> System.out.println(store));
+        System.out.println(counter);
 
     }
-
-    static int visitStore(int i, int t, int k)
-    {
-
-        if (t > stores[i].h) return 0;
-
-        if (memo.containsKey(i))
-            if (memo.get(i).containsKey(k))
-            {
-//                System.out.println("Memoizing");
-                return memo.get(i).get(k);
-            }
-
-
-        int s = 1;
-        for (int j = 0; j < n; j++)
-            if (!stores[j].visited)
-            {
-                stores[j].visited = true;
-                s = Math.max(s, 1 + visitStore(j, t + stores[j].t, k + 1));
-                stores[j].visited = false;
-            }
-
-        HashMap<Integer, Integer> temp = new HashMap<>();
-        temp.put(k, s);
-        memo.put(i, temp);
-        return s;
-
-    }
-
-    /*
-    static int visitStore(int i, int j, int t, int m)
-    {
-
-        if (n == m) return 0;
-
-        int total_time = t + stores[i].t;
-        int time_left = stores[i].h - total_time;
-
-        if (time_left < 0) return 0;
-
-        int s = 0;
-        for (int k = 0; k < n; k++)
-        {
-            if (!stores[k].visited)
-            {
-                stores[k].visited = true;
-                s = Math.max(s, visitStore(k, i, total_time, m + 1) + 1);
-                stores[k].visited = false;
-            }
-        }
-
-        return s;
-
-    }*/
 
 }
